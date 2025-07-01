@@ -17,8 +17,6 @@ transaction_routes = Blueprint('transaction_routes', __name__)
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-# Get MongoDB URI from config
-MONGO_URI = config.get('Database', 'MongoURI', fallback='mongodb+srv://abdulrahman:GmsPvw6tspNufsYE@cluster0.pujvbqx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 
 # MongoDB connection
 client = MongoClient(MONGO_URI)
