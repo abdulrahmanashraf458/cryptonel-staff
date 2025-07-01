@@ -1,0 +1,99 @@
+# DDOS Protection Configuration
+
+# General settings
+enabled: true
+bypass_on_error: true
+integration_mode: middleware
+
+# Detector configuration
+detector:
+  # Traffic analysis settings
+  window_size: 60
+  rate_threshold: 25.0
+  path_entropy_threshold: 1.5
+  ua_diversity_threshold: 5
+  error_rate_threshold: 0.4
+  bot_variance_threshold: 0.01
+  
+  # Scoring and blocking settings
+  block_score_threshold: 7
+  block_threshold: 12
+  suspicious_ip_threshold: 10
+  global_rate_threshold: 120.0
+  global_window: 60
+  
+  # Cleanup and maintenance
+  cleanup_interval: 30
+  record_expiry: 1800
+  
+  # Whitelist
+  whitelist:
+    - 127.0.0.1
+    - ::1
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+    - 104.16.0.0/12  # Cloudflare IPs
+    - 104.24.0.0/14  # Cloudflare IPs
+    - 172.64.0.0/13  # Cloudflare IPs
+  
+  # Machine learning settings  
+  use_ml: true
+  min_samples_for_training: 100
+  ml_retrain_interval: 3600
+  
+  # Geolocation settings
+  use_geolocation: true
+  geo_db_path: "./data/geolite2-country.mmdb"
+  blocked_countries: []
+
+# Mitigator configuration
+mitigator:
+  # Rate limiting settings
+  rate_window: 60
+  global_rate_limit: 500
+  ip_rate_limit: 30
+  endpoint_rate_limit: 100
+  resource_check_interval: 30
+  
+  # Circuit breaker settings
+  circuit_threshold: 5
+  circuit_threshold_critical: 3
+  circuit_reset_timeout: 30
+  global_circuit_threshold: 20
+  
+  # Critical endpoints
+  critical_endpoints:
+    - "/staff/login"
+    - "/api/auth"
+    - "/api/staff/login"
+    - "/api/staff/add"
+    - "/api/wallet/transfer"
+    - "/api/user/ban"
+
+# API settings
+api:
+  auth_required: true
+  base_path: "/ddos-api"
+  enable_management: true
+  enable_metrics: true
+  allow_cors: true
+  cors_origins:
+    - "http://localhost:5000"
+  rate_limit: 60
+
+# Monitoring configuration
+monitor:
+  log_level: "INFO"
+  enable_prometheus: false
+  enable_alerts: false
+  alert_methods:
+    - "console"
+  alert_threshold: 2.0
+  alert_cooldown: 300
+
+# Storage configuration
+storage:
+  type: "json"
+  json_directory: "storage"
+  cleanup_interval: 3600 
