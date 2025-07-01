@@ -342,9 +342,7 @@ def update_config(env):
     if not config.has_section('IntegratedSystems'):
         config.add_section('IntegratedSystems')
         
-    # Get MongoDB URI
-    mongo_uri = config.get('Database', 'MongoURI', fallback='mongodb+srv://abdulrahman:GmsPvw6tspNufsYE@cluster0.pujvbqx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-    
+
     # Update environment
     config.set('Server', 'Environment', env)
     
